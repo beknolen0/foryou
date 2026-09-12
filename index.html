@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>For you 🤍</title>
 
   <style>
@@ -15,36 +16,117 @@
     body {
       min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #fff5f7, #f8f1ff);
+      background:
+        radial-gradient(circle at center, #fff8fa 0%, #f8f1ff 45%, #eee7f5 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #333;
       overflow: hidden;
+      transition: background 2s ease;
     }
 
     .container {
       width: 90%;
-      max-width: 430px;
+      max-width: 500px;
       text-align: center;
       position: relative;
-      z-index: 2;
+      z-index: 5;
     }
+
+    /* =========================
+       SCREENS
+    ========================= */
 
     .screen {
       display: none;
-      animation: fadeIn 0.8s ease;
+      animation: screenFade 1.5s ease;
     }
 
     .screen.active {
       display: block;
     }
 
-    .heart {
-      font-size: 65px;
-      animation: heartbeat 1.8s infinite;
-      margin-bottom: 25px;
+    @keyframes screenFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
+    /* =========================
+       HEART
+    ========================= */
+
+    .heart {
+      font-size: 70px;
+      margin-bottom: 25px;
+      animation: heartbeat 2.2s infinite;
+      filter: drop-shadow(0 5px 15px rgba(120, 80, 100, 0.15));
+    }
+
+    .broken-heart {
+      animation:
+        heartbeat 2.2s infinite,
+        sadGlow 4s ease-in-out infinite;
+    }
+
+    .whole-heart {
+      animation:
+        heartbeat 2.8s infinite,
+        softGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      15% {
+        transform: scale(1.10);
+      }
+
+      30% {
+        transform: scale(1);
+      }
+
+      45% {
+        transform: scale(1.06);
+      }
+
+      60% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes sadGlow {
+      0%, 100% {
+        opacity: 0.65;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes softGlow {
+      0%, 100% {
+        filter: drop-shadow(0 5px 12px rgba(150, 130, 150, 0.15));
+      }
+
+      50% {
+        filter: drop-shadow(0 5px 25px rgba(255, 180, 210, 0.5));
+      }
+    }
+
+    /* =========================
+       TEXT
+    ========================= */
 
     h1 {
       font-size: 32px;
@@ -54,23 +136,27 @@
     }
 
     h2 {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 600;
-      margin-bottom: 18px;
+      margin-bottom: 25px;
       color: #4a3b42;
     }
 
     p {
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.8;
       color: #665c61;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .small {
       font-size: 14px;
       color: #91858b;
     }
+
+    /* =========================
+       BUTTON
+    ========================= */
 
     button {
       border: none;
@@ -80,7 +166,7 @@
       border-radius: 30px;
       font-size: 15px;
       cursor: pointer;
-      transition: 0.25s ease;
+      transition: 0.3s ease;
       box-shadow: 0 8px 20px rgba(74, 59, 66, 0.15);
     }
 
@@ -89,58 +175,177 @@
       box-shadow: 0 12px 25px rgba(74, 59, 66, 0.22);
     }
 
+    button:active {
+      transform: scale(0.96);
+    }
+
+    /* =========================
+       MESSAGE CARD
+    ========================= */
+
     .message {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(10px);
-      padding: 28px 24px;
-      border-radius: 24px;
-      box-shadow: 0 15px 40px rgba(80, 60, 70, 0.08);
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(12px);
+      padding: 30px 25px;
+      border-radius: 25px;
+      box-shadow:
+        0 15px 40px rgba(80, 60, 70, 0.08),
+        0 0 0 1px rgba(255,255,255,0.5);
+
       margin-bottom: 25px;
     }
 
-    .signature {
-      margin-top: 25px;
-      font-style: italic;
-      color: #817279;
+    /* =========================
+       INDIVIDUAL LINES
+    ========================= */
+
+    .message p,
+    .thank-you p {
+      opacity: 0;
+      transform: translateY(12px);
+      transition:
+        opacity 1.4s ease,
+        transform 1.4s ease;
     }
+
+    .message p.visible,
+    .thank-you p.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       SORRY SIGNATURE
+    ========================= */
+
+    .signature {
+      margin-top: 35px;
+      font-style: italic;
+      font-size: 21px;
+      color: #5b4a52;
+
+      opacity: 0;
+      transform: translateY(15px);
+      transition:
+        opacity 2s ease,
+        transform 2s ease;
+    }
+
+    .signature.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       ONE MORE THING
+    ========================= */
+
+    .pause {
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pause-text {
+      font-size: 27px;
+      color: #4a3b42;
+      opacity: 0;
+      animation: gentleFade 4s ease forwards;
+    }
+
+    .pause-heart {
+      margin-top: 25px;
+      font-size: 25px;
+      opacity: 0;
+      animation: gentleFade 4s ease forwards;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes gentleFade {
+      0% {
+        opacity: 0;
+      }
+
+      40% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* =========================
+       THANK YOU
+    ========================= */
+
+    .thank-you p {
+      font-size: 16px;
+    }
+
+    .thank-you-heart {
+      font-size: 68px;
+      margin-bottom: 20px;
+      animation:
+        heartbeat 3s infinite,
+        softGlow 4s infinite;
+    }
+
+    .forgive {
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    /* =========================
+       FINAL LOVE
+    ========================= */
+
+    .final-love {
+      margin-top: 40px;
+      padding-bottom: 20px;
+    }
+
+    .love-line {
+      font-size: 23px;
+      color: #4a3b42;
+      margin: 13px 0;
+
+      opacity: 0;
+      transform: translateY(15px);
+
+      transition:
+        opacity 2s ease,
+        transform 2s ease;
+    }
+
+    .love-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       FLOATING HEARTS
+    ========================= */
 
     .floating-heart {
       position: fixed;
-      font-size: 18px;
-      opacity: 0;
+      bottom: -40px;
       pointer-events: none;
-      animation: floatUp 5s linear forwards;
-    }
+      z-index: 1;
+      opacity: 0;
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes heartbeat {
-      0%, 100% {
-        transform: scale(1);
-      }
-      15% {
-        transform: scale(1.12);
-      }
-      30% {
-        transform: scale(1);
-      }
-      45% {
-        transform: scale(1.08);
-      }
+      animation: floatUp linear forwards;
     }
 
     @keyframes floatUp {
       0% {
-        transform: translateY(0) scale(0.8);
+        transform:
+          translateY(0)
+          translateX(0)
+          scale(0.7);
+
         opacity: 0;
       }
 
@@ -148,56 +353,154 @@
         opacity: 0.7;
       }
 
+      50% {
+        transform:
+          translateY(-50vh)
+          translateX(25px)
+          scale(1);
+      }
+
       100% {
-        transform: translateY(-100vh) translateX(40px) scale(1.2);
+        transform:
+          translateY(-110vh)
+          translateX(-30px)
+          scale(1.25);
+
         opacity: 0;
+      }
+    }
+
+    /* =========================
+       SOFT PARTICLES
+    ========================= */
+
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      z-index: 1;
+
+      animation: particleFloat 6s linear forwards;
+    }
+
+    @keyframes particleFloat {
+      from {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0.7;
+      }
+
+      to {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: 88%;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      p {
+        font-size: 15.5px;
+      }
+
+      .message {
+        padding: 25px 20px;
+      }
+
+      .heart,
+      .thank-you-heart {
+        font-size: 60px;
+      }
+
+      .love-line {
+        font-size: 21px;
       }
     }
   </style>
 </head>
 
+
 <body>
 
   <div class="container">
 
-    <!-- SCREEN 1 -->
-    <div class="screen active" id="screen1">
-      <div class="heart">💔</div>
+    <!-- =====================================
+         SCREEN 1 — OPENING
+    ====================================== -->
 
-      <h1>My babii</h1>
+    <div class="screen active" id="screen1">
+
+      <div class="heart broken-heart">
+        💔
+      </div>
+
+      <h1>
+        My babii
+      </h1>
 
       <p class="small">
-        Please read this. 
+        Please read this.
       </p>
 
       <button onclick="nextScreen(2)">
         Open it 🥺
       </button>
+
     </div>
 
 
-    <!-- SCREEN 2 -->
+    <!-- =====================================
+         SCREEN 2 — I'M SORRY
+    ====================================== -->
+
     <div class="screen" id="screen2">
+
       <div class="message">
 
-        <h2>I'm sorry.</h2>
+        <h2>
+          I'm sorry.
+        </h2>
 
         <p>
           I know I hurt you, and I'm so sorry for everything.
         </p>
 
         <p>
-          I know that this won't change a thing, but I think it's worth a try dibaaa
+          I know that this won't change a thing,
+          but I think it's worth a try dibaaa.
           I just wanted you to know that I genuinely regret hurting you.
         </p>
 
         <p>
           I love you, but I'm sorry if indi mo na mabatyagan.
-          And even when things get difficult, that hasn't changed.
+          And even when things get difficult,
+          that hasn't changed.
         </p>
 
         <p>
-          I'm not making this to pressure you or ask anything from you.
+          I'm not making this to pressure you
+          or ask anything from you.
           I just wanted to say what I should have said properly.
           I really mean this.
         </p>
@@ -211,39 +514,97 @@
       <button onclick="nextScreen(3)">
         One more thing...
       </button>
+
     </div>
 
 
-    <!-- SCREEN 3 -->
+    <!-- =====================================
+         SCREEN 3 — ONE MORE THING
+    ====================================== -->
+
     <div class="screen" id="screen3">
 
-      <div class="heart">♡</div>
+      <div class="pause">
 
-      <h2>Thank you.</h2>
+        <div class="pause-text">
+          One more thing...
+        </div>
 
-      <p>
-        Thank you for all that we had.
-        Thank you for loving me,
-        for all the patience and understanding nga sulit2,
-        for every memory, every little moment,
-        for being my safe space,
-        for being my home.
-      </p>
+        <div class="pause-heart">
+          ♡
+        </div>
 
-      <p>
-        Whatever happens from here,
-        I'll always be grateful that I got to love you.
-      </p>
+        <button
+          onclick="nextScreen(4)"
+          style="margin-top:35px; opacity:0.85;"
+        >
+          🤍
+        </button>
 
-      <p>
-        I hope someday you can forgive me.
-      </p>
+      </div>
 
-      <h2>🤍</h2>
+    </div>
 
-      <button onclick="showHearts()">
-        I love you. I love you. I love you.
-      </button>
+
+    <!-- =====================================
+         SCREEN 4 — THANK YOU
+    ====================================== -->
+
+    <div class="screen" id="screen4">
+
+      <div class="thank-you">
+
+        <div class="thank-you-heart">
+          ♡
+        </div>
+
+        <h2>
+          Thank you.
+        </h2>
+
+        <p>
+          Thank you for all that we had.
+          Thank you for loving me,
+          for all the patience and understanding nga sulit2,
+          for every memory, every little moment,
+          for being my safe space,
+          for being my home.
+        </p>
+
+        <p>
+          Whatever happens from here,
+          I'll always be grateful that I got to love you.
+        </p>
+
+        <p class="forgive">
+          I hope someday you can forgive me.
+        </p>
+
+        <h2 style="margin-top:30px;">
+          🤍
+        </h2>
+
+        <div class="final-love">
+
+          <div class="love-line">
+            I love you.
+          </div>
+
+          <div class="love-line">
+            I love you.
+          </div>
+
+          <div class="love-line">
+            I love you.
+          </div>
+
+        </div>
+
+        <button onclick="showHearts()" style="margin-top:25px;">
+          ♡
+        </button>
+
+      </div>
 
     </div>
 
@@ -252,42 +613,198 @@
 
   <script>
 
+    /* =====================================
+       SCREEN NAVIGATION
+    ====================================== */
+
     function nextScreen(number) {
-      document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.remove("active");
+
+      document.querySelectorAll(".screen")
+        .forEach(screen => {
+          screen.classList.remove("active");
+        });
+
+      const next =
+        document.getElementById("screen" + number);
+
+      next.classList.add("active");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
       });
 
-      document.getElementById("screen" + number)
-        .classList.add("active");
+
+      /* Run animations depending on screen */
+
+      if (number === 2) {
+        startSorryAnimation();
+      }
+
+      if (number === 4) {
+        startThankYouAnimation();
+      }
     }
 
 
-    function showHearts() {
+    /* =====================================
+       SORRY ANIMATION
+    ====================================== */
 
-      for (let i = 0; i < 25; i++) {
+    function startSorryAnimation() {
 
-        const heart = document.createElement("div");
+      const paragraphs =
+        document.querySelectorAll("#screen2 .message p");
 
-        heart.className = "floating-heart";
-
-        heart.innerHTML = Math.random() > 0.5 ? "🤍" : "♡";
-
-        heart.style.left = Math.random() * 100 + "vw";
-
-        heart.style.bottom = "-30px";
-
-        heart.style.animationDelay =
-          Math.random() * 2 + "s";
-
-        heart.style.fontSize =
-          (14 + Math.random() * 18) + "px";
-
-        document.body.appendChild(heart);
+      paragraphs.forEach((paragraph, index) => {
 
         setTimeout(() => {
-          heart.remove();
-        }, 7000);
+
+          paragraph.classList.add("visible");
+
+        }, 1000 + (index * 1700));
+
+      });
+
+
+      /* Final apology */
+
+      setTimeout(() => {
+
+        document.querySelector("#screen2 .signature")
+          .classList.add("visible");
+
+      }, 7800);
+
+
+      /* Gentle particles */
+
+      for (let i = 0; i < 12; i++) {
+
+        setTimeout(() => {
+          createParticle();
+        }, i * 500);
+
       }
+    }
+
+
+    /* =====================================
+       THANK YOU ANIMATION
+    ====================================== */
+
+    function startThankYouAnimation() {
+
+      const paragraphs =
+        document.querySelectorAll("#screen4 .thank-you p");
+
+      paragraphs.forEach((paragraph, index) => {
+
+        setTimeout(() => {
+
+          paragraph.classList.add("visible");
+
+        }, 1000 + (index * 1700));
+
+      });
+
+
+      /* I love you x3 */
+
+      const loveLines =
+        document.querySelectorAll(".love-line");
+
+      loveLines.forEach((line, index) => {
+
+        setTimeout(() => {
+
+          line.classList.add("visible");
+
+        }, 6500 + (index * 2000));
+
+      });
+
+    }
+
+
+    /* =====================================
+       FLOATING HEARTS
+    ====================================== */
+
+    function showHearts() {
+
+      for (let i = 0; i < 35; i++) {
+
+        setTimeout(() => {
+
+          const heart =
+            document.createElement("div");
+
+          heart.className =
+            "floating-heart";
+
+          const hearts = [
+            "🤍",
+            "♡",
+            "♥",
+            "❤️"
+          ];
+
+          heart.innerHTML =
+            hearts[
+              Math.floor(
+                Math.random() * hearts.length
+              )
+            ];
+
+          heart.style.left =
+            Math.random() * 100 + "vw";
+
+          heart.style.fontSize =
+            (14 + Math.random() * 20) + "px";
+
+          heart.style.animationDuration =
+            (5 + Math.random() * 4) + "s";
+
+          document.body.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 10000);
+
+        }, i * 180);
+
+      }
+
+    }
+
+
+    /* =====================================
+       SOFT PARTICLES
+    ====================================== */
+
+    function createParticle() {
+
+      const particle =
+        document.createElement("div");
+
+      particle.className =
+        "particle";
+
+      particle.style.left =
+        Math.random() * 100 + "vw";
+
+      particle.style.bottom =
+        "-10px";
+
+      particle.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+
+      document.body.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, 10000);
 
     }
 
@@ -295,3 +812,4 @@
 
 </body>
 </html>
+```
