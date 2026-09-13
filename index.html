@@ -16,7 +16,12 @@
     body {
       min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
-      background: linear-gradient(135deg, #f3e7eb 0%, #ded4df 50%, #c9c1cf 100%);
+      background: linear-gradient(
+        135deg,
+        #f3e7eb 0%,
+        #ded4df 50%,
+        #c9c1cf 100%
+      );
       display: flex;
       align-items: center;
       justify-content: center;
@@ -40,6 +45,17 @@
     .screen {
       display: none;
       animation: screenFade 1.5s ease;
+
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      padding: 35px 30px;
+      border-radius: 25px;
+
+      box-shadow:
+        0 15px 40px rgba(80, 60, 70, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
     }
 
     .screen.active {
@@ -115,11 +131,15 @@
 
     @keyframes softGlow {
       0%, 100% {
-        filter: drop-shadow(0 5px 12px rgba(150, 130, 150, 0.15));
+        filter: drop-shadow(
+          0 5px 12px rgba(150, 130, 150, 0.15)
+        );
       }
 
       50% {
-        filter: drop-shadow(0 5px 25px rgba(255, 180, 210, 0.5));
+        filter: drop-shadow(
+          0 5px 25px rgba(255, 180, 210, 0.5)
+        );
       }
     }
 
@@ -171,7 +191,8 @@
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(74, 59, 66, 0.22);
+      box-shadow:
+        0 12px 25px rgba(74, 59, 66, 0.22);
     }
 
     button:active {
@@ -179,18 +200,11 @@
     }
 
     /* =========================
-       MESSAGE CARD
+       MESSAGE
     ========================= */
 
     .message {
-      background: rgba(255, 255, 255, 0.68);
-      backdrop-filter: blur(12px);
-      padding: 30px 25px;
-      border-radius: 25px;
-      box-shadow:
-        0 15px 40px rgba(80, 60, 70, 0.08),
-        0 0 0 1px rgba(255,255,255,0.5);
-
+      padding: 0;
       margin-bottom: 25px;
     }
 
@@ -232,6 +246,26 @@
 
     .signature.visible {
       opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       ONE MORE THING BUTTON
+    ========================= */
+
+    #oneMoreButton {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+
+      transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+    }
+
+    #oneMoreButton.visible {
+      opacity: 1;
+      visibility: visible;
       transform: translateY(0);
     }
 
@@ -280,21 +314,29 @@
        THANK YOU
     ========================= */
 
-    .thank-you p {
-      font-size: 16px;
+    .thank-you {
+      padding: 0;
     }
 
-    .thank-you-heart {
-      font-size: 68px;
-      margin-bottom: 20px;
-      animation:
-        heartbeat 3s infinite,
-        softGlow 4s infinite;
+    .thank-you p {
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 14px;
     }
 
     .forgive {
       font-style: italic;
-      margin-top: 10px;
+      margin-top: 4px;
+      margin-bottom: 8px !important;
+    }
+
+    /* =========================
+       FINAL HEART
+    ========================= */
+
+    .final-heart {
+      font-size: 28px;
+      margin-top: 8px;
     }
 
     /* =========================
@@ -302,14 +344,14 @@
     ========================= */
 
     .final-love {
-      margin-top: 40px;
-      padding-bottom: 20px;
+      margin-top: 20px;
+      padding-bottom: 0;
     }
 
     .love-line {
       font-size: 23px;
       color: #4a3b42;
-      margin: 13px 0;
+      margin: 6px 0;
 
       opacity: 0;
       transform: translateY(15px);
@@ -379,7 +421,7 @@
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
       z-index: 1;
 
       animation: particleFloat 6s linear forwards;
@@ -411,12 +453,17 @@
         width: 88%;
       }
 
+      .screen {
+        padding: 30px 22px;
+      }
+
       h1 {
         font-size: 29px;
       }
 
       h2 {
         font-size: 25px;
+        margin-bottom: 20px;
       }
 
       p {
@@ -424,16 +471,20 @@
       }
 
       .message {
-        padding: 25px 20px;
+        padding: 0;
       }
 
-      .heart,
-      .thank-you-heart {
+      .heart {
         font-size: 60px;
       }
 
       .love-line {
         font-size: 21px;
+      }
+
+      .thank-you p {
+        font-size: 15.5px;
+        line-height: 1.55;
       }
     }
   </style>
@@ -510,7 +561,7 @@
 
       </div>
 
-      <button onclick="nextScreen(3)">
+      <button id="oneMoreButton" onclick="nextScreen(3)">
         One more thing...
       </button>
 
@@ -553,10 +604,6 @@
 
       <div class="thank-you">
 
-        <div class="thank-you-heart">
-          ♡
-        </div>
-
         <h2>
           Thank you.
         </h2>
@@ -567,7 +614,7 @@
           for all the patience and understanding nga sulit2, <br>
           for every memory, every little moment, <br>
           for being my safe space, <br>
-          for being my home. <br>
+          for being my home.
         </p>
 
         <p>
@@ -580,9 +627,9 @@
           I hope someday you can forgive me.
         </p>
 
-        <h2 style="margin-top:30px;">
+        <div class="final-heart">
           🤍
-        </h2>
+        </div>
 
         <div class="final-love">
 
@@ -600,7 +647,7 @@
 
         </div>
 
-        <button onclick="showHearts()" style="margin-top:25px;">
+        <button onclick="showHearts()" style="margin-top:12px;">
           ♡
         </button>
 
@@ -673,6 +720,15 @@
 
         document.querySelector("#screen2 .signature")
           .classList.add("visible");
+
+        /* Show One More Thing after the apology */
+
+        setTimeout(() => {
+
+          document.querySelector("#oneMoreButton")
+            .classList.add("visible");
+
+        }, 1200);
 
       }, 7800);
 
