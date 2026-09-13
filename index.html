@@ -179,6 +179,7 @@
       padding: 13px 28px;
       border-radius: 30px;
       font-size: 15px;
+      font-family: Georgia, "Times New Roman", serif;
       cursor: pointer;
       transition: 0.3s ease;
       box-shadow: 0 8px 20px rgba(74, 59, 66, 0.15);
@@ -192,6 +193,32 @@
 
     button:active {
       transform: scale(0.96);
+    }
+
+    /* =========================
+       DELAYED BUTTONS
+    ========================= */
+
+    #openButton,
+    #oneMoreButton,
+    #oneMoreThingButton,
+    #finalButton {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+
+      transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+    }
+
+    #openButton.visible,
+    #oneMoreButton.visible,
+    #oneMoreThingButton.visible,
+    #finalButton.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
 
     /* =========================
@@ -211,6 +238,7 @@
     .thank-you p {
       opacity: 0;
       transform: translateY(12px);
+
       transition:
         opacity 1.4s ease,
         transform 1.4s ease;
@@ -234,6 +262,7 @@
 
       opacity: 0;
       transform: translateY(15px);
+
       transition:
         opacity 2s ease,
         transform 2s ease;
@@ -241,26 +270,6 @@
 
     .signature.visible {
       opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* =========================
-       ONE MORE THING BUTTON
-    ========================= */
-
-    #oneMoreButton {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-
-      transition:
-        opacity 1.5s ease,
-        transform 1.5s ease;
-    }
-
-    #oneMoreButton.visible {
-      opacity: 1;
-      visibility: visible;
       transform: translateY(0);
     }
 
@@ -508,7 +517,10 @@
         Please read this.
       </p>
 
-      <button onclick="nextScreen(2)">
+      <button
+        id="openButton"
+        onclick="nextScreen(2)"
+      >
         Open it? 🥺
       </button>
 
@@ -556,7 +568,10 @@
 
       </div>
 
-      <button id="oneMoreButton" onclick="nextScreen(3)">
+      <button
+        id="oneMoreButton"
+        onclick="nextScreen(3)"
+      >
         I'm sowii 😞
       </button>
 
@@ -580,8 +595,9 @@
         </div>
 
         <button
+          id="oneMoreThingButton"
           onclick="nextScreen(4)"
-          style="margin-top:35px; opacity:0.85;"
+          style="margin-top:35px;"
         >
           🤍
         </button>
@@ -621,7 +637,7 @@
           I don't want to waste what we have.<br>
           I hope someday you can forgive me.
         </p>
-        
+
         <div class="final-love">
 
           <div class="love-line">
@@ -638,7 +654,11 @@
 
         </div>
 
-        <button onclick="showHearts()" style="margin-top:12px;">
+        <button
+          id="finalButton"
+          onclick="showHearts()"
+          style="margin-top:12px;"
+        >
           ♡
         </button>
 
@@ -679,9 +699,29 @@
         startSorryAnimation();
       }
 
+      if (number === 3) {
+        startOneMoreThingAnimation();
+      }
+
       if (number === 4) {
         startThankYouAnimation();
       }
+    }
+
+
+    /* =====================================
+       OPENING ANIMATION
+    ====================================== */
+
+    function startOpeningAnimation() {
+
+      setTimeout(() => {
+
+        document.querySelector("#openButton")
+          .classList.add("visible");
+
+      }, 2500);
+
     }
 
 
@@ -693,6 +733,25 @@
 
       const paragraphs =
         document.querySelectorAll("#screen2 .message p");
+
+      const signature =
+        document.querySelector("#screen2 .signature");
+
+      const button =
+        document.querySelector("#oneMoreButton");
+
+
+      /* Reset */
+
+      paragraphs.forEach(paragraph => {
+        paragraph.classList.remove("visible");
+      });
+
+      signature.classList.remove("visible");
+      button.classList.remove("visible");
+
+
+      /* Paragraphs */
 
       paragraphs.forEach((paragraph, index) => {
 
@@ -709,15 +768,14 @@
 
       setTimeout(() => {
 
-        document.querySelector("#screen2 .signature")
-          .classList.add("visible");
+        signature.classList.add("visible");
 
-        /* Show One More Thing after the apology */
+
+        /* Show button after the apology */
 
         setTimeout(() => {
 
-          document.querySelector("#oneMoreButton")
-            .classList.add("visible");
+          button.classList.add("visible");
 
         }, 1200);
 
@@ -729,10 +787,40 @@
       for (let i = 0; i < 12; i++) {
 
         setTimeout(() => {
+
           createParticle();
+
         }, i * 500);
 
       }
+
+    }
+
+
+    /* =====================================
+       ONE MORE THING ANIMATION
+    ====================================== */
+
+    function startOneMoreThingAnimation() {
+
+      const button =
+        document.querySelector("#oneMoreThingButton");
+
+      button.classList.remove("visible");
+
+
+      /*
+        "One more thing..." appears first.
+        "hmm babyyy??" follows after 1.5 seconds.
+        Button appears after both have finished.
+      */
+
+      setTimeout(() => {
+
+        button.classList.add("visible");
+
+      }, 5500);
+
     }
 
 
@@ -744,6 +832,28 @@
 
       const paragraphs =
         document.querySelectorAll("#screen4 .thank-you p");
+
+      const loveLines =
+        document.querySelectorAll(".love-line");
+
+      const finalButton =
+        document.querySelector("#finalButton");
+
+
+      /* Reset */
+
+      paragraphs.forEach(paragraph => {
+        paragraph.classList.remove("visible");
+      });
+
+      loveLines.forEach(line => {
+        line.classList.remove("visible");
+      });
+
+      finalButton.classList.remove("visible");
+
+
+      /* Thank-you paragraphs */
 
       paragraphs.forEach((paragraph, index) => {
 
@@ -758,9 +868,6 @@
 
       /* I love you x3 */
 
-      const loveLines =
-        document.querySelectorAll(".love-line");
-
       loveLines.forEach((line, index) => {
 
         setTimeout(() => {
@@ -770,6 +877,16 @@
         }, 6500 + (index * 2000));
 
       });
+
+
+      /* Final button appears after the final
+         "I love you, my Jamnic!" */
+
+      setTimeout(() => {
+
+        finalButton.classList.add("visible");
+
+      }, 12500);
 
     }
 
@@ -790,11 +907,13 @@
           heart.className =
             "floating-heart";
 
+
           const hearts = [
             "🤍",
             "♡",
-            "♥",
+            "♥"
           ];
+
 
           heart.innerHTML =
             hearts[
@@ -803,19 +922,26 @@
               )
             ];
 
+
           heart.style.left =
             Math.random() * 100 + "vw";
+
 
           heart.style.fontSize =
             (14 + Math.random() * 20) + "px";
 
+
           heart.style.animationDuration =
             (5 + Math.random() * 4) + "s";
 
+
           document.body.appendChild(heart);
 
+
           setTimeout(() => {
+
             heart.remove();
+
           }, 10000);
 
         }, i * 180);
@@ -834,25 +960,40 @@
       const particle =
         document.createElement("div");
 
+
       particle.className =
         "particle";
+
 
       particle.style.left =
         Math.random() * 100 + "vw";
 
+
       particle.style.bottom =
         "-10px";
+
 
       particle.style.animationDuration =
         (5 + Math.random() * 5) + "s";
 
+
       document.body.appendChild(particle);
 
+
       setTimeout(() => {
+
         particle.remove();
+
       }, 10000);
 
     }
+
+
+    /* =====================================
+       START OPENING ANIMATION
+    ====================================== */
+
+    startOpeningAnimation();
 
   </script>
 
